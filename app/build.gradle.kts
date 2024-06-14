@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -50,18 +51,24 @@ android {
 }
 
 dependencies {
-    val nav_version = "2.7.7"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
+    val navVersion = "2.7.7"
+    implementation("androidx.navigation:navigation-compose:$navVersion")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.1")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
-    val compose_version="1.6.7"
+    val composeVersion="1.6.8"
     implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.compose.ui:ui:${compose_version}")
-    implementation("androidx.compose.material:material:${compose_version}")
-    implementation("androidx.compose.ui:ui-tooling-preview:${compose_version}")
+    implementation("androidx.compose.ui:ui:${composeVersion}")
+    implementation("androidx.compose.material:material:${composeVersion}")
+    implementation("androidx.compose.ui:ui-tooling-preview:${composeVersion}")
+
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    kapt("androidx.room:room-compiler:$roomVersion")
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")

@@ -45,6 +45,11 @@ fun PowerStateView() {
                     .width(150.dp)) {
                     Icon(painter = painterResource(id = R.drawable.baseline_power_settings_new_24), contentDescription = null )
                 }
+                Button(onClick = {  powerStateViewModel.fetchPowerState()  }, shape = RoundedCornerShape(0.dp), modifier = Modifier
+                    .height(150.dp)
+                    .width(150.dp)) {
+                    Icon(painter = painterResource(id = R.drawable.baseline_power_settings_new_24), contentDescription = null )
+                }
             }
         }
     }

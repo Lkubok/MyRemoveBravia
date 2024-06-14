@@ -11,6 +11,8 @@ class PowerViewModel: ViewModel() {
     private val _powerState = mutableStateOf(PowerState())
     val powerState: State<PowerState> = _powerState
 
+    private val retrofitService = RetrofitClient.getService()
+
     init{
         fetchPowerState()
     }
@@ -19,7 +21,8 @@ class PowerViewModel: ViewModel() {
         viewModelScope.launch {
             try {
                 val setPowerBody = SetPowerStatusRequestBody(params = listOf(PowerParam(isOn)))
-                powerStatusService.setPowerStatus(setPowerBody)
+//                powerStatusService.setPowerStatus(setPowerBody)
+                retrofitService.setPowerStatus(setPowerBody)
             }catch (e:Exception){
                 println(e)
             }finally {
@@ -28,11 +31,12 @@ class PowerViewModel: ViewModel() {
         }
     }
 
-    private fun fetchPowerState(){
+    fun fetchPowerState(){
         viewModelScope.launch {
             try {
                 val powerStateRequestBody = PowerStateRequestBody()
-                val powerResponse = powerStatusService.getStatus(powerStateRequestBody)
+//                val powerResponse = powerStatusService.getStatus(powerStateRequestBody)
+                val powerResponse = retrofitService.getStatus(powerStateRequestBody)
                 println("Response: $powerResponse")
                 _powerState.value = _powerState.value.copy(
                     isOn = (powerResponse.result[0].status == "active"),

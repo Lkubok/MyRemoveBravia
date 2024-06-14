@@ -11,6 +11,12 @@ import com.khorzon.mybraviaremote.ui.theme.MyBraviaRemoteTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val dynamicBaseUrl = "http://192.168.233.5/sony/"
+        RetrofitClient.setBaseUrl(dynamicBaseUrl)
+
+//        val apiService = RetrofitClient.getService()
+
         setContent {
             MyBraviaRemoteTheme {
                 Surface(
