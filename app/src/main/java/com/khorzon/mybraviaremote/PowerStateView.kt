@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.khorzon.mybraviaremote.helpers.irccCodes
 
 @Composable
 fun PowerStateView() {
@@ -46,6 +47,11 @@ fun PowerStateView() {
                     Icon(painter = painterResource(id = R.drawable.baseline_power_settings_new_24), contentDescription = null )
                 }
                 Button(onClick = {  powerStateViewModel.fetchPowerState()  }, shape = RoundedCornerShape(0.dp), modifier = Modifier
+                    .height(150.dp)
+                    .width(150.dp)) {
+                    Icon(painter = painterResource(id = R.drawable.baseline_power_settings_new_24), contentDescription = null )
+                }
+                Button(onClick = {  powerStateViewModel.sendSoapRequest(irccCodes["Up"] ?: "")  }, shape = RoundedCornerShape(0.dp), modifier = Modifier
                     .height(150.dp)
                     .width(150.dp)) {
                     Icon(painter = painterResource(id = R.drawable.baseline_power_settings_new_24), contentDescription = null )

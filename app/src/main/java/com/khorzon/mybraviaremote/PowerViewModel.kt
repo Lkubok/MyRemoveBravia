@@ -6,36 +6,58 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class PowerViewModel: ViewModel() {
+class PowerViewModel : ViewModel() {
 
     private val _powerState = mutableStateOf(PowerState())
     val powerState: State<PowerState> = _powerState
 
     private val retrofitService = RetrofitClient.getService()
+    private val soapService = SoapClient.getService()
 
-    init{
+    init {
         fetchPowerState()
     }
 
-    fun setIsOn(isOn: Boolean){
+    fun setIsOn(isOn: Boolean) {
         viewModelScope.launch {
             try {
                 val setPowerBody = SetPowerStatusRequestBody(params = listOf(PowerParam(isOn)))
-//                powerStatusService.setPowerStatus(setPowerBody)
                 retrofitService.setPowerStatus(setPowerBody)
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 println(e)
-            }finally {
-                fetchPowerState()
             }
         }
     }
 
-    fun fetchPowerState(){
+    fun sendSoapRequest(irccCode: String) {
+        viewModelScope.launch {
+
+            val xSendIRCC = XSendIRCC(irccCode = irccCode)
+            val body = Body(xSendIRCC)
+            val envelope = Envelope(body)
+            val call = soapService.sendIRCC(envelope)
+            call.enqueue(object : retrofit2.Callback<Envelope> {
+                override fun onResponse(
+                    call: retrofit2.Call<Envelope>,
+                    response: retrofit2.Response<Envelope>
+                ) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body()
+                        println("Success: $responseBody")
+                    } else { println("Error: ${response.errorBody()?.string()}") }
+                }
+
+                override fun onFailure(call: retrofit2.Call<Envelope>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+        }
+    }
+
+    fun fetchPowerState() {
         viewModelScope.launch {
             try {
                 val powerStateRequestBody = PowerStateRequestBody()
-//                val powerResponse = powerStatusService.getStatus(powerStateRequestBody)
                 val powerResponse = retrofitService.getStatus(powerStateRequestBody)
                 println("Response: $powerResponse")
                 _powerState.value = _powerState.value.copy(
@@ -43,7 +65,7 @@ class PowerViewModel: ViewModel() {
                     loading = false,
                     error = null
                 )
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 _powerState.value = _powerState.value.copy(
                     loading = false,
                     error = "Error occurred: ${e.message}"

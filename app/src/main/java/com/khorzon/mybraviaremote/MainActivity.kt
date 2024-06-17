@@ -14,6 +14,7 @@ class MainActivity : ComponentActivity() {
 
         val dynamicBaseUrl = "http://192.168.233.5/sony/"
         RetrofitClient.setBaseUrl(dynamicBaseUrl)
+        SoapClient.setBaseUrl(dynamicBaseUrl)
 
 //        val apiService = RetrofitClient.getService()
 
