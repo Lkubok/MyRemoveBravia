@@ -27,6 +27,7 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF000814),
     onSurface = Color(0xFF000814),
+    error = Color(0xffe63946),
 )
 private val DarkColorScheme = LightColorScheme
 
@@ -39,10 +40,10 @@ fun MyBraviaRemoteTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+//            val context = LocalContext.current
+//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+//        }
         //        TODO: check why color schemes aren't working
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
@@ -58,7 +59,7 @@ fun MyBraviaRemoteTheme(
     }
 
     MaterialTheme(
-        colorScheme = LightColorScheme,
+        colorScheme = colorScheme,
         typography = Typography,
         content = content,
     )

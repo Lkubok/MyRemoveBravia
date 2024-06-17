@@ -70,10 +70,11 @@ object SoapClient {
         .client(okHttpSoapClient)
         .addConverterFactory(SimpleXmlConverterFactory.create())
         .build()
-//    val soapService: SoapService = retrofitSoap.create(SoapService::class.java)
+
     fun getService(): SoapService {
         return retrofitSoap.create(SoapService::class.java)
     }
+
     fun setBaseUrl(baseUrl: String) {
         baseUrlInterceptor.baseUrl = baseUrl
     }

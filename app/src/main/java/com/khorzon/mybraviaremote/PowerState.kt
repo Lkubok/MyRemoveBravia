@@ -8,11 +8,6 @@ data class PowerParam(
     val status: Boolean
 )
 
-//data class SetTextFormParams(
-////    val encKey: String? = "",
-//    val text: String
-//)
-
 data class PowerStateResponseResult(
     val status: String
 )
@@ -40,15 +35,6 @@ data class SetPowerStatusRequestBody(
     val params: List<PowerParam>,
     val version: String = "1.0"
 )
-
-//data class SetTextFormRequestBody(
-//    val method:String = "setTextForm",
-//    val id: Int = 601,
-//    val params: List<String>,
-//    val version: String = "1.0"
-//
-//)
-
 
 @Root(name = "Envelope", strict = false)
 @Namespace(prefix = "s", reference = "http://schemas.xmlsoap.org/soap/envelope/")

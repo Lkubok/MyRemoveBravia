@@ -1,14 +1,16 @@
 package com.khorzon.mybraviaremote
 
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -23,7 +25,7 @@ fun MainView() {
     val controller: NavController = rememberNavController()
     val navBackStackEntry by controller.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
+//    val scaffoldState: ScaffoldState = rememberScaffoldState()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope: CoroutineScope = rememberCoroutineScope()
 
@@ -40,7 +42,7 @@ fun MainView() {
         Scaffold(
             topBar = { TopBar(drawerState = drawerState, scope = scope) },
             bottomBar = { BottomBar(currentRoute = currentRoute, controller = controller) },
-            scaffoldState = scaffoldState,
+//            scaffoldState = scaffoldState,
         ) {
             Navigation(navController = controller, pd = it)
         }
