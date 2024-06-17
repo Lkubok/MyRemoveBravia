@@ -37,6 +37,45 @@ class PowerViewModel : ViewModel() {
     init {
         fetchPowerState()
         fetchVolumeState()
+        fetchNetworkSettings()
+        fetchApps()
+    }
+
+    private fun fetchNetworkSettings(){
+        viewModelScope.launch {
+            try {
+                val networkSettingsResponse = retrofitService.getNetworkSettings(
+                    GetNetworkSettingsRequest(params = listOf(NetworkInterface("eth0")))
+                )
+                _networkSettings.value = networkSettingsResponse.result[0]
+            } catch (e: Exception) {
+                println(e)
+                Log.d("REQUEST ERROR", e.message.toString())
+            }
+        }
+    }
+
+    fun setActiveApp(uri: String){
+        viewModelScope.launch {
+            try {
+                retrofitService.setActiveApp(SetActiveAppRequest(params = listOf(SetActiveAppParam(uri))))
+            } catch (e: Exception) {
+                println(e)
+                Log.d("REQUEST ERROR", e.message.toString())
+            }
+        }
+    }
+
+    private fun fetchApps(){
+        viewModelScope.launch {
+            try {
+                val getAppsResponse = retrofitService.getApplicationList()
+                _apps.value = getAppsResponse.result[0]
+            } catch (e: Exception) {
+                println(e)
+                Log.d("REQUEST ERROR", e.message.toString())
+            }
+        }
     }
 
     private fun fetchVolumeState() {

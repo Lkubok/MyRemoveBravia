@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.khorzon.mybraviaremote.screens.AppsScreen
 import com.khorzon.mybraviaremote.screens.CodingScreen
 import com.khorzon.mybraviaremote.screens.RemoteScreen
 import com.khorzon.mybraviaremote.screens.Screen
@@ -23,6 +24,9 @@ fun Navigation(navController: NavController, pd: PaddingValues) {
     ) {
         composable(Screen.BottomScreen.Remote.route) {
             RemoteScreen()
+        }
+        composable(Screen.BottomScreen.Applications.route) {
+            AppsScreen()
         }
         composable(Screen.BottomScreen.Status.route) {
             StatusScreen()

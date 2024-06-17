@@ -121,7 +121,7 @@ data class SetActiveAppParam(
 
 data class SetActiveAppRequest(
     val method: String = "setActiveApp",
-    val valid: Int = 601,
+    val id: Int = 601,
     val params: List<SetActiveAppParam>,
     val version: String = "1.0"
 )
