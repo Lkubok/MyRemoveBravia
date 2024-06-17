@@ -12,6 +12,13 @@ data class PowerStateResponseResult(
     val status: String
 )
 
+data class SetAudioVolumeParams(
+    val volume: String,
+    val ui: String = "on",
+    val target: String = "speaker"
+
+)
+
 data class PowerStateResponse(
     val id: Int,
     val result: List<PowerStateResponseResult>
@@ -30,7 +37,7 @@ data class SetPowerStatusResponse(
 )
 
 data class SetPowerStatusRequestBody(
-    val method:String = "setPowerStatus",
+    val method: String = "setPowerStatus",
     val id: Int = 55,
     val params: List<PowerParam>,
     val version: String = "1.0"
@@ -55,4 +62,16 @@ data class Body(
 data class XSendIRCC(
     @field:Element(name = "IRCCCode")
     var irccCode: String
+)
+
+data class SetAudioVolumeRequest(
+    val method: String = "setAudioVolume",
+    val id: Int = 98,
+    val params: List<SetAudioVolumeParams>,
+    val version: String = "1.2"
+)
+
+data class SetAudioVolumeResponse(
+    val result: List<Any>,
+    val id: Int
 )

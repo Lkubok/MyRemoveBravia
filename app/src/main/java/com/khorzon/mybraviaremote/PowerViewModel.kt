@@ -4,6 +4,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class PowerViewModel : ViewModel() {
@@ -14,6 +18,8 @@ class PowerViewModel : ViewModel() {
     private val retrofitService = RetrofitClient.getService()
     private val soapService = SoapClient.getService()
 
+    private var debounceJob: Job? = null
+
     init {
         fetchPowerState()
     }
@@ -23,6 +29,20 @@ class PowerViewModel : ViewModel() {
             try {
                 val setPowerBody = SetPowerStatusRequestBody(params = listOf(PowerParam(isOn)))
                 retrofitService.setPowerStatus(setPowerBody)
+            } catch (e: Exception) {
+                println(e)
+            }
+        }
+    }
+
+    fun setVolume(newVol: Int) {
+        debounceJob?.cancel()
+        debounceJob = CoroutineScope(Dispatchers.Main).launch {
+            delay(100)
+            try {
+                val volumeBody =
+                    SetAudioVolumeRequest(params = listOf(SetAudioVolumeParams(newVol.toString())))
+                retrofitService.setAudioVolume(volumeBody)
             } catch (e: Exception) {
                 println(e)
             }
@@ -44,7 +64,9 @@ class PowerViewModel : ViewModel() {
                     if (response.isSuccessful) {
                         val responseBody = response.body()
                         println("Success: $responseBody")
-                    } else { println("Error: ${response.errorBody()?.string()}") }
+                    } else {
+                        println("Error: ${response.errorBody()?.string()}")
+                    }
                 }
 
                 override fun onFailure(call: retrofit2.Call<Envelope>, t: Throwable) {

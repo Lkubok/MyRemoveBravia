@@ -96,4 +96,9 @@ interface ApiService {
     suspend fun setPowerStatus(
         @Body data: SetPowerStatusRequestBody,
     ): SetPowerStatusResponse
+
+    @POST("sony/audio")
+    @Headers("X-Auth-PSK: 123456789")
+    suspend fun setAudioVolume(@Body data: SetAudioVolumeRequest): SetAudioVolumeResponse
+
 }
