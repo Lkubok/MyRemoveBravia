@@ -2,12 +2,9 @@ package com.khorzon.mybraviaremote
 
 import android.util.Log
 import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
@@ -22,13 +19,25 @@ class PowerViewModel : ViewModel() {
     val powerState: State<PowerState> = _powerState
     private val _volumeState = mutableIntStateOf(0)
     val volumeState: State<Int> = _volumeState
-    private val _networkSettings = mutableStateOf<List<NetworkSetting>>(listOf())
+    private val _networkSettings = mutableStateOf<List<NetworkSetting>>(
+        listOf(
+            NetworkSetting(
+                hwAddr = "",
+                netmask = "",
+                ipAddrV4 = "0.0.0.0",
+                ipAddrV6 = "",
+                dns = listOf("", ""),
+                gateway = "0.0.0.0",
+                netif = ""
+            )
+        )
+    )
     val networkSettings: State<List<NetworkSetting>> = _networkSettings
     private val _apps = mutableStateOf<List<ApplicationItem>>(listOf())
     val apps: State<List<ApplicationItem>> = _apps
 
     private val _sliderPosition = mutableFloatStateOf(0f)
-    val sliderPosition:State<Float> = _sliderPosition
+    val sliderPosition: State<Float> = _sliderPosition
 
     private val retrofitService = RetrofitClient.getService()
     private val soapService = SoapClient.getService()
@@ -41,13 +50,14 @@ class PowerViewModel : ViewModel() {
         fetchApps()
     }
 
-    private fun fetchNetworkSettings(){
+    private fun fetchNetworkSettings() {
         viewModelScope.launch {
             try {
                 val networkSettingsResponse = retrofitService.getNetworkSettings(
-                    GetNetworkSettingsRequest(params = listOf(NetworkInterface("eth0")))
+                    GetNetworkSettingsRequest(params = listOf(NetworkInterface("wlan0")))
                 )
                 _networkSettings.value = networkSettingsResponse.result[0]
+                Log.d("MESSAGE", networkSettingsResponse.result[0][0].ipAddrV4.toString())
             } catch (e: Exception) {
                 println(e)
                 Log.d("REQUEST ERROR", e.message.toString())
@@ -55,10 +65,18 @@ class PowerViewModel : ViewModel() {
         }
     }
 
-    fun setActiveApp(uri: String){
+    fun setActiveApp(uri: String) {
         viewModelScope.launch {
             try {
-                retrofitService.setActiveApp(SetActiveAppRequest(params = listOf(SetActiveAppParam(uri))))
+                retrofitService.setActiveApp(
+                    SetActiveAppRequest(
+                        params = listOf(
+                            SetActiveAppParam(
+                                uri
+                            )
+                        )
+                    )
+                )
             } catch (e: Exception) {
                 println(e)
                 Log.d("REQUEST ERROR", e.message.toString())
@@ -66,7 +84,7 @@ class PowerViewModel : ViewModel() {
         }
     }
 
-    private fun fetchApps(){
+    private fun fetchApps() {
         viewModelScope.launch {
             try {
                 val getAppsResponse = retrofitService.getApplicationList()
@@ -106,7 +124,7 @@ class PowerViewModel : ViewModel() {
     }
 
     fun setVolume(newVol: Int) {
-        _sliderPosition.floatValue =newVol.toFloat()
+        _sliderPosition.floatValue = newVol.toFloat()
         debounceJob?.cancel()
         debounceJob = CoroutineScope(Dispatchers.Main).launch {
             delay(100)

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">My Remote</string>
+    <string name="power_status">TV power status: </string>
+    <string name="power_on">ON</string>
+    <string name="power_off">OFF</string>
+    <string name="volume_level">Volume level: </string>
+    <string name="ip_address">IP address: </string>
+<!--    <string name="app_name">My Remote</string>-->
 </resources>
