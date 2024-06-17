@@ -19,7 +19,7 @@ class PowerViewModel : ViewModel() {
     val powerState: State<PowerState> = _powerState
     private val _volumeState = mutableIntStateOf(0)
     val volumeState: State<Int> = _volumeState
-    private val _networkSettings = mutableStateOf<List<NetworkSetting>>(
+    private val _networkSettings = mutableStateOf(
         listOf(
             NetworkSetting(
                 hwAddr = "",
@@ -132,7 +132,7 @@ class PowerViewModel : ViewModel() {
                 val volumeBody =
                     SetAudioVolumeRequest(params = listOf(SetAudioVolumeParams(newVol.toString())))
                 retrofitService.setAudioVolume(volumeBody)
-                _volumeState.value = newVol
+                _volumeState.intValue = newVol
             } catch (e: Exception) {
                 println(e)
                 Log.d("REQUEST ERROR", e.message.toString())

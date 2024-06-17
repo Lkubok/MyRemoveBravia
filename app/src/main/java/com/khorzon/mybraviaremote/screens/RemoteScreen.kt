@@ -5,5 +5,6 @@ import com.khorzon.mybraviaremote.PowerStateView
 
 @Composable
 fun RemoteScreen(){
+
     PowerStateView()
 }

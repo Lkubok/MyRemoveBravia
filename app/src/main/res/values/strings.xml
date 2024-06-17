@@ -5,5 +5,4 @@
     <string name="power_off">OFF</string>
     <string name="volume_level">Volume level: </string>
     <string name="ip_address">IP address: </string>
-<!--    <string name="app_name">My Remote</string>-->
 </resources>

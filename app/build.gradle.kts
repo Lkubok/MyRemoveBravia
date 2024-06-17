@@ -72,6 +72,7 @@ dependencies {
     kapt("androidx.room:room-compiler:$roomVersion")
 
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")

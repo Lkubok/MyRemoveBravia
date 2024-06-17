@@ -25,11 +25,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,13 +44,24 @@ fun PowerStateView() {
 
     val powerStateViewModel: PowerViewModel = viewModel()
     val powerState by powerStateViewModel.powerState
-    val volumeState by powerStateViewModel.volumeState
     val sliderPosition by powerStateViewModel.sliderPosition
+
+//    suspend fun incrementCounter() {
+//        Context.dataStore.edit { settings ->
+//            val currentCounterValue = settings[EXAMPLE_COUNTER] ?: 0
+//            settings[EXAMPLE_COUNTER] = currentCounterValue + 1
+//        }
+//    }
 
     Column(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+//            Button(onClick = { /*TODO*/
+//
+//            }) {
+//                Text(text = "CLICK")
+//            }
             Button(
                 onClick = { powerStateViewModel.sendSoapRequest(irccCodes["Options"] ?: "") },
                 shape = RoundedCornerShape(0.dp),
