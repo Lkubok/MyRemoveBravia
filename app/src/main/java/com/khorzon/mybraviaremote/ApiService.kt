@@ -101,4 +101,19 @@ interface ApiService {
     @Headers("X-Auth-PSK: 123456789")
     suspend fun setAudioVolume(@Body data: SetAudioVolumeRequest): SetAudioVolumeResponse
 
+    @POST("sony/audio")
+    @Headers("X-Auth-PSK: 123456789")
+    suspend fun getVolumeInformation(@Body data: GetVolumeInformationRequest = GetVolumeInformationRequest() ): GetVolumeInformationResponse
+
+    @POST("sony/system")
+    @Headers("X-Auth-PSK: 123456789")
+    suspend fun getNetworkSettings(@Body data: GetNetworkSettingsRequest ): GetNetworkSettingsResponse
+
+    @POST("sony/appControl")
+    @Headers("X-Auth-PSK: 123456789")
+    suspend fun getApplicationList(@Body data: GetApplicationListRequest ): GetApplicationListResponse
+
+    @POST("sony/appControl")
+    @Headers("X-Auth-PSK: 123456789")
+    suspend fun setActiveApp(@Body data: SetActiveAppRequest ): SetActiveAppResponse
 }

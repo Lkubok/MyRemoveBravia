@@ -75,3 +75,84 @@ data class SetAudioVolumeResponse(
     val result: List<Any>,
     val id: Int
 )
+
+data class VolumeInfoResult(
+
+    val volume: Int,
+    val minVolume: Int,
+    val mute: Boolean,
+    val maxVolume: Int,
+    val target: String
+)
+
+data class GetVolumeInformationResponse(
+    val result: List<List<VolumeInfoResult>>,
+    val id: Int
+)
+
+data class GetVolumeInformationRequest(
+    val method: String = "getVolumeInformation",
+    val id: Int = 33,
+    val params: List<Any> = listOf(),
+    val version: String = "1.0"
+)
+
+data class ApplicationItem(
+    val title: String,
+    val uri: String,
+    val icon: String,
+)
+
+data class GetApplicationListRequest(
+    val method: String = "getApplicationList",
+    val id: Int = 60,
+    val params: List<Any> = listOf(),
+    val version: String = "1.0"
+)
+
+data class GetApplicationListResponse(
+    val result: List<List<ApplicationItem>>,
+    val id: Int
+)
+
+data class SetActiveAppParam(
+    val uri: String
+)
+
+data class SetActiveAppRequest(
+    val method: String = "setActiveApp",
+    val valid: Int = 601,
+    val params: List<SetActiveAppParam>,
+    val version: String = "1.0"
+)
+
+data class SetActiveAppResponse(
+    val result: List<Any>,
+    val id: Int,
+)
+
+data class NetworkSetting(
+    val hwAddr: String,
+    val netmask: String,
+    val ipAddrV4: String,
+    val netif: String,
+    val ipAddrV6: String,
+    val dns: List<String>,
+    val gateway: String,
+)
+
+data class NetworkInterface(
+    val netif: String = "eth0"
+)
+
+data class GetNetworkSettingsRequest(
+    val method: String = "getNetworkSettings",
+    val id: Int = 2,
+    val params: List<NetworkInterface>,
+    val version: String = "1.0"
+)
+
+data class GetNetworkSettingsResponse(
+    val result: List<List<NetworkSetting>>,
+    val id: Int
+)

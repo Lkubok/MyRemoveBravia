@@ -39,10 +39,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.khorzon.mybraviaremote.helpers.irccCodes
 import com.khorzon.mybraviaremote.ui.theme.MyBraviaRemoteTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.roundToInt
 
 @Composable
@@ -50,10 +46,8 @@ fun PowerStateView() {
 
     val powerStateViewModel: PowerViewModel = viewModel()
     val powerState by powerStateViewModel.powerState
-
-    val coroutineScope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-    val searchQueryState = MutableStateFlow("")
-
+    val volumeState by powerStateViewModel.volumeState
+    val sliderPosition by powerStateViewModel.sliderPosition
 
     Column(
         modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
@@ -190,13 +184,15 @@ fun PowerStateView() {
                 )
             }
             Button(
-                onClick = {},
+                onClick = { powerStateViewModel.sendSoapRequest(irccCodes["Home"] ?: "") },
                 shape = RoundedCornerShape(0.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black),
                 modifier = Modifier
                     .height(100.dp)
-                    .width(100.dp),
-            ) {}
+                    .width(100.dp)
+            ) {
+                Icon(painterResource(id = R.drawable.baseline_home_48), contentDescription = null)
+            }
 
         }
         //        5th line
@@ -241,11 +237,12 @@ fun PowerStateView() {
             }
 
         }
-        var sliderPosition by remember { mutableFloatStateOf(0f) }
+//        var sliderPosition by remember { mutableFloatStateOf(0f) }
         Slider(
             value = sliderPosition,
+//            value = volumeState.toFloat(),
             onValueChange = {
-                sliderPosition = it
+//                sliderPosition = it
                 powerStateViewModel.setVolume(it.roundToInt())
             },
             modifier = Modifier.padding(top = 32.dp, start = 64.dp, end = 64.dp, bottom = 32.dp),
